@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/base.css">
+    <link rel="stylesheet" href="/assets/css/login.css">
+    <title>Transports</title>
+</head>
+
+<body>
+    <form id="login-form" action="/api/login" method="post" class="d-flex flex-column">
+        <div class="form-group">
+            <label for="user-name">Login</label>
+            <input type="text" name="login" id="login" />
+            <span class="help-text"></span>
+        </div>
+        <div class="form-group">
+            <label for="user-password">Senha</label>
+            <input type="text" name="login" id="login" />
+            <span class="help-text"></span>
+        </div>
+        <button type="submit">Entar</button>
+    </form>
+    <script type="module" src="/assets/js/login.js"></script>
+</body>
+
+</html>
