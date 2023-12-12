@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "node src/index.js",
-    "dev": "node -r dotenv/config --inspect --watch src/index.js"
+    "dev": "node -r dotenv/config --trace-warnings --inspect --watch-path=./src src/index.js"
   },
   "keywords": [],
   "author": "",
