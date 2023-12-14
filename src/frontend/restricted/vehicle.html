@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="/assets/css/base.css" />
+    <link rel="stylesheet" href="/assets/css/index.css" />
+    <link rel="stylesheet" href="/assets/css/vehicle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        crossorigin="anonymous" />
+    <title>Transports</title>
+</head>
+
+<body>
+    <aside>
+        <nav>
+            <ul>
+                <li>
+                    <i class="fas fa-truck"></i>
+                    <a href="/veiculos">Veículo</a>
+                </li>
+                <li>
+                    <i class="fas fa-user-secret"></i>
+                    <a href="/motoristas">Motoristas</a>
+                </li>
+            </ul>
+        </nav>
+        <button id="logout">Sair <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+    </aside>
+
+    <main>
+        <form>
+            <a href="/veiculos">Lista</a>
+            <div class="row">
+                <div class="form-group" style="max-width: 25%;">
+                    <label for="id">Id</label>
+                    <input type="text" name="id" id="id" inputmode="number" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="licensePlate">Placa</label>
+                    <input type="text" name="licensePlate" id="licensePlate">
+                    <span class="help-text"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group">
+                    <label for="maxWeight">Peso Máximo</label>
+                    <input type="text" name="maxWeight" id="maxWeight" inputmode="number">
+                    <span class="help-text"></span>
+                </div>
+                <div class="form-group">
+                    <label for="maxWidth">Lagura Máxima</label>
+                    <input type="text" name="maxWidth" id="maxWidth" inputmode="number">
+                    <span class="help-text"></span>
+                </div>
+                <div class="form-group">
+                    <label for="maxHeight">Altura Máxima</label>
+                    <input type="text" name="maxHeight" id="maxHeight" inputmode="number">
+                    <span class="help-text"></span>
+                </div>
+                <div class="form-group">
+                    <label for="maxLength">Comprimento Máximo</label>
+                    <input type="text" name="maxLength" id="maxLength" inputmode="number">
+                    <span class="help-text"></span>
+                </div>
+            </div>
+            <div class="row centralized">
+                <button type="submit">Salvar</button>
+                <button type="reset">Cancelar</button>
+            </div>
+        </form>
+    </main>
+    <script type="module" src="/assets/js/vehicle.js"></script>
+</body>
+
+</html>

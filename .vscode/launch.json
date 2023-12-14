@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Attach",
+            "port": 9229,
+            "request": "attach",
+            "envFile": "${workspaceFolder}/.env",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node",
+            "restart": {
+                "maxAttempts": 5,
+                "delay": 5000
+            }
+        }
+    ]
+}

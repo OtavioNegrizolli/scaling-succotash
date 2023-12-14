@@ -1,0 +1,73 @@
+body {
+    display: flex;
+    background-color: #DDD;
+}
+
+main {
+    display: block;
+    padding: 60px;
+    flex: 1;
+}
+
+aside * {
+    font-size: 1.05em;
+}
+
+aside {
+    display: flex;
+    position: relative;
+    width: 20vw;
+    height: 100vh;
+    box-shadow: 0 1px 9px 1px #000a;
+    flex-direction: column;
+    max-width: 300px;
+    background-color: #FFF;
+}
+
+aside button,
+aside button:hover {
+    background-color: #0000;
+}
+
+aside nav {
+    width: 100%;
+    flex: 1;
+}
+
+i {
+    width: 24px;
+    display: inline;
+}
+
+a {
+    display: inline;
+}
+
+nav ul {
+    display: block;
+    list-style: none;
+    padding: 1em 2em;
+}
+
+nav li {
+    text-align: start;
+    display: block;
+    width: 100%;
+}
+
+nav li a {
+    text-decoration: none;
+}
+
+nav li:hover {
+    transform: scale(1.1);
+}
+
+nav li:hover a {
+    text-shadow: 0 0 12px #5555;
+    text-decoration: underline;
+}
+
+nav li+li {
+    margin-top: 10px;
+}

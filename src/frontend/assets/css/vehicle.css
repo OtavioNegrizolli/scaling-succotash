@@ -1,0 +1,95 @@
+form {
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 2em 2.5em;
+    border-radius: .345em;
+    box-shadow: 0 0 10px 1px #5558;
+    font-size: 20px;
+}
+
+input {
+    font-size: 18px;
+}
+
+.row {
+    flex-wrap: wrap;
+    display: flex;
+    gap: 1em;
+}
+
+.row+.row {
+    margin-top: 1em;
+}
+
+.form-group {
+    flex: 1;
+}
+
+.form-group label {
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+}
+
+.form-group input {
+    display: block;
+    width: 100%;
+}
+
+.row button {
+    flex: 1;
+    font-size: 18px;
+    max-width: 33%;
+    cursor: pointer;
+    box-shadow: unset;
+}
+
+button[type=submit] {
+    --color: green;
+    background-color: var(--color);
+    color: #fff;
+}
+
+button[type=reset] {
+    --color: red;
+    background-color: #0000;
+    color: var(--color);
+    border: 1px solid var(--color);
+}
+
+button:hover {
+    background-color: var(--color);
+    color: #FFF;
+    box-shadow: 0 0 5px var(--color);
+}
+
+button:active {
+    color: #FFF;
+    box-shadow: unset;
+}
+
+.container {
+    width: 100%;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px 1px #5558;
+    height: 100%;
+    padding: 1em;
+    border-radius: .345em;
+}
+
+.container table {
+    width: 100%;
+    border: 1px solid #555;
+    border-collapse: collapse;
+    border-radius: .345em;
+}
+
+td,
+th {
+    border: 1px solid #555;
+    border-collapse: collapse;
+}
+
+.container table tbody {
+    overflow: auto;
+}
