@@ -112,18 +112,15 @@ export default class Vehicle {
         else if (this.#cargoMaxLength <= 0)
             errors['maxLength'] = 'Deve ser superior a 0 (zero)!';
 
-        if (Object.keys(errors).length > 0)
-            return errors;
-
-        return null;
+        return Object.keys(errors).length > 0 ? errors : null;
     }
-    
+
     toJSON() {
         return {
             id: this.#id,
             licensePlate: this.#licensePlate,
             maxWeight: this.#cargoMaxWeight,
-            maxWidth : this.#cargoMaxWidth,
+            maxWidth: this.#cargoMaxWidth,
             maxHeight: this.#cargoMaxHeight,
             maxLength: this.#cargoMaxLength,
         }
