@@ -25,6 +25,10 @@
                     <i class="fas fa-user-secret"></i>
                     <a href="/motoristas">Motoristas</a>
                 </li>
+                <li>
+                    <i class="fas fa-route"></i>
+                    <a href="/trajetos">Trajetos</a>
+                </li>
             </ul>
         </nav>
         <button id="logout">Sair <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
@@ -32,20 +36,22 @@
 
     <main>
         <div class="container">
-            <a href="/motoristas/0" class="as-btn"><i class="fas fa-plus"></i>Cadastrar</a>
+            <a href="/trajetos/0" class="as-btn"><i class="fas fa-plus"></i>Cadastrar</a>
             <table>
-                <thead>                    
+                <thead>
                     <th scope="col">Id</th>
                     <th scope="col">Nome</th>
-                    <th scope="col">CPF</th>
-                    <th scope="col">CNH</th>
+                    <th scope="col">Origem</th>
+                    <th scope="col">Destino</th>
+                    <th scope="col">Distancia (KM)</th>
+                    <th scope="col">Tempo Médio</th>
                     <th></th>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
     </main>
-    <script type="module" src="/assets/js/driver-list.js"></script>
+    <script type="module" src="/assets/js/path-list.js"></script>
 </body>
 
 </html>

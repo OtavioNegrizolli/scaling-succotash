@@ -25,6 +25,10 @@
                     <i class="fas fa-user-secret"></i>
                     <a href="/motoristas">Motoristas</a>
                 </li>
+                <li>
+                    <i class="fas fa-route"></i>
+                    <a href="/trajetos">Trajetos</a>
+                </li>
             </ul>
         </nav>
         <button id="logout">Sair <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
@@ -32,37 +36,37 @@
 
     <main>
         <form>
-            <a href="/veiculos" class="as-btn"><i class="fas fa-arrow-left"></i>Lista</a>
+            <a href="/trajetos" class="as-btn"><i class="fas fa-arrow-left"></i>Lista</a>
             <div class="row">
                 <div class="form-group" style="max-width: 25%;">
                     <label for="id">Id</label>
                     <input type="text" name="id" id="id" inputmode="number" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="licensePlate">Placa</label>
-                    <input type="text" name="licensePlate" id="licensePlate">
+                    <label for="name">Nome</label>
+                    <input type="text" name="name" id="name">
                     <span class="help-text"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="maxWeight">Peso Máximo</label>
-                    <input type="text" name="maxWeight" id="maxWeight" inputmode="number">
+                    <label for="origin">Cidade Origem</label>
+                    <input type="text" name="origin" id="origin">
                     <span class="help-text"></span>
                 </div>
                 <div class="form-group">
-                    <label for="maxWidth">Lagura Máxima</label>
-                    <input type="text" name="maxWidth" id="maxWidth" inputmode="number">
+                    <label for="detination">Cidade Destino</label>
+                    <input type="text" name="detination" id="detination" inputmode="number">
                     <span class="help-text"></span>
                 </div>
                 <div class="form-group">
-                    <label for="maxHeight">Altura Máxima</label>
-                    <input type="text" name="maxHeight" id="maxHeight" inputmode="number">
+                    <label for="ditance">Distância(KM)</label>
+                    <input type="text" name="ditance" id="ditance" inputmode="number">
                     <span class="help-text"></span>
                 </div>
                 <div class="form-group">
-                    <label for="maxLength">Comprimento Máximo</label>
-                    <input type="text" name="maxLength" id="maxLength" inputmode="number">
+                    <label for="time">Tempo Médio(Horas)</label>
+                    <input type="text" name="time" id="time" inputmode="number">
                     <span class="help-text"></span>
                 </div>
             </div>
@@ -72,7 +76,7 @@
             </div>
         </form>
     </main>
-    <script type="module" src="/assets/js/vehicle.js"></script>
+    <script type="module" src="/assets/js/driver.js"></script>
 </body>
 
 </html>
