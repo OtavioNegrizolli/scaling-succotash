@@ -6,6 +6,13 @@ import {
     handleVehiclePost,
     handleVehicleUpdate
 } from './http/vehicle.handlers.js';
+import {
+    handleDriverDelete,
+    handleDriverGet,
+    handleDriverIndex,
+    handleDriverPost,
+    handleDriverUpdate
+} from './http/driver.handlers.js';
 
 const backendRoutes = Router();
 
@@ -22,7 +29,7 @@ function handleLogin(req, res) {
 }
 
 backendRoutes.post('/login', handleLogin);
-
+// vehicles
 backendRoutes.route('/veiculos')
     .get(handleVehicleIndex)
     .post(handleVehiclePost);
@@ -33,13 +40,15 @@ backendRoutes.route('/veiculos/:id')
     .patch(handleVehicleUpdate)
     .delete(handleVehicleDelete);
 
-// backendRoutes.route('/motoristas')
-//     .get(handleVehicleIndex)
-//     .post(handleVehiclePost);
+// drivers
+backendRoutes.route('/motoristas')
+    .get(handleDriverIndex)
+    .post(handleDriverPost);
 
-// backendRoutes.route('/motoristas/:id')
-//     .get(handleVehicleGet)
-//     .put(handleVehicleUpdate)
-//     .patch(handleVehicleUpdate);
+backendRoutes.route('/motoristas/:id')
+    .get(handleDriverGet)
+    .put(handleDriverUpdate)
+    .patch(handleDriverUpdate)
+    .delete(handleDriverDelete);
 
 export default backendRoutes;

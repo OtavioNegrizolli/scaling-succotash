@@ -8,7 +8,7 @@ function onDelete(id) {
             type: 'warning',
             hasCancelButton: true
         }).then( async v => {
-            const res = await fetch(`/api/veiculos/${id}`, {
+            const res = await fetch(`/api/motoristas/${id}`, {
                 method: 'DELETE'
             });
             if (res.status == 204) {
@@ -26,36 +26,35 @@ document.addEventListener('DOMContentLoaded', loadList);
 function loadList() {
     const tbody = document.querySelector('table tbody');
     tbody.innerHTML = '';
-    fetch('/api/veiculos').then(response => {
+    fetch('/api/motoristas').then(response => {
         if (response.status == 200) {
-            response.json().then(vehicle => {
-                for (let i = 0; i < vehicle.length; i++) {
+            response.json().then(drivers => {
+                for (let i = 0; i < drivers.length; i++) {
                     const id = document.createElement('td');
-                    id.innerText = vehicle[i].id;
-                    const licensePlate = document.createElement('td');
-                    licensePlate.innerText = vehicle[i].licensePlate;
-                    const maxWeight = document.createElement('td');
-                    maxWeight.innerText = vehicle[i].maxWeight;
-                    const maxWidth = document.createElement('td');
-                    maxWidth.innerText = vehicle[i].maxWidth;
-                    const maxHeight = document.createElement('td');
-                    maxHeight.innerText = vehicle[i].maxHeight;
-                    const maxLength = document.createElement('td');
-                    maxLength.innerText = vehicle[i].maxLength;
+                    id.innerText = drivers[i].id;
+
+                    const name = document.createElement('td');
+                    name.innerText = drivers[i].name;
+
+                    const cpf = document.createElement('td');
+                    cpf.innerText = drivers[i].cpf?.replace(/(\d{3})(\d{3})(\d{3})(.{2})/, '$1.$2.$3-$4');
+                    
+                    const cnh = document.createElement('td');
+                    cnh.innerText = drivers[i].cnh;
 
                     const edit = document.createElement('a');
-                    edit.href = `/veiculos/${vehicle[i].id}`;
+                    edit.href = `/motoristas/${drivers[i].id}`;
                     edit.innerHTML = '<i class="fas fa-pencil"></i>';
 
                     const del = document.createElement('a');
                     del.href = 'javascript:void(0)';
                     del.innerHTML = '<i class="fas fa-trash"></i>';
-                    del.addEventListener('click', onDelete(vehicle[i].id));
+                    del.addEventListener('click', onDelete(drivers[i].id));
 
                     const actions = document.createElement('td');
                     actions.append(edit, del);
                     const tr = document.createElement('tr');
-                    tr.append(id, licensePlate, maxWeight, maxWidth, maxHeight, maxLength, actions);
+                    tr.append(id, name, cpf, cnh, actions);
                     tbody.append(tr);
                 }
             });

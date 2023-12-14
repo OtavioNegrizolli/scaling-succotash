@@ -5,15 +5,18 @@ import { applyErrorMsg, showModal } from './helpers.js';
 async function onSubmit(e) {
     e.preventDefault();
     try {
-        document.querySelectorAll('.help-text').forEach( ht => ht.innerHTML = '');
         const data = {};
+        document.querySelectorAll('.help-text').forEach( ht => ht.innerHTML = '');
         document.querySelectorAll('.form-group input').forEach(input => {
             data[input.id] = input.value;
         });
+        document.querySelectorAll('.form-group select').forEach(input => {
+            data[input.id] = input.value;
+        });
         // update
+        console.log(data);
         if (Number(data.id) > 0) {
-            console.log(data);
-            const responseData = await fetch(`/api/veiculos/${data['id']}`, {
+            const responseData = await fetch(`/api/motoristas/${data['id']}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -24,12 +27,12 @@ async function onSubmit(e) {
                 showModal({
                     message: 'Atualizado com sucesso',
                     title: 'Feito'
-                }).then( e => {
+                }).then(() => {
                     window.location.reload();
                 });
         } // create
         else {
-            const responseData = await fetch('/api/veiculos', {
+            const responseData = await fetch('/api/motoristas', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,7 +41,6 @@ async function onSubmit(e) {
             });
             switch (responseData.status) {
                 case 201: await onCreated(responseData); break;
-
                 case 400: await onBadRequest(responseData); break;
                 case 401: onUnathourized(responseData); break;
                 case 403: break;
@@ -55,7 +57,7 @@ async function onSubmit(e) {
 async function onBadRequest(response) {
     const { errors } = await response.json();
     if (errors.error) {
-
+        showModal({ title: 'Erro', message: errors.error });
     }
     else
         Object.keys(errors).forEach(k => applyErrorMsg(k, errors[k]));
@@ -76,7 +78,7 @@ async function onCreated(response) {
     if (location) {
         showModal({
             title: 'Criado com sucesso',
-            message: `Criado o veiculo com id ${location.split('/')[3]}`,
+            message: `Criado o motorista com id ${location.split('/')[3]}`,
         }).then(e => {
             const a = document.createElement('a');
             a.href = location;
@@ -90,7 +92,7 @@ async function checkForEditing() {
     if (path.length == 3) {
         const id = Number(path.pop());
         if (id > 0) {
-            const data = await fetch(`/api/veiculos/${id}`);
+            const data = await fetch(`/api/motoristas/${id}`);
             if (data.status == 200) {
                 const body = await data.json();
                 Object.keys(body).forEach(k => {

@@ -32,37 +32,38 @@
 
     <main>
         <form>
-            <a href="/veiculos" class="as-btn"><i class="fas fa-arrow-left"></i>Lista</a>
+            <a href="/motoristas" class="as-btn"><i class="fas fa-arrow-left"></i>Lista</a>
             <div class="row">
                 <div class="form-group" style="max-width: 25%;">
                     <label for="id">Id</label>
                     <input type="text" name="id" id="id" inputmode="number" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="licensePlate">Placa</label>
-                    <input type="text" name="licensePlate" id="licensePlate">
+                    <label for="name">Nome</label>
+                    <input type="text" name="name" id="name">
                     <span class="help-text"></span>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group">
-                    <label for="maxWeight">Peso Máximo</label>
-                    <input type="text" name="maxWeight" id="maxWeight" inputmode="number">
+                    <label for="cpf">CPF</label>
+                    <input type="text" name="cpf" id="cpf" inputmode="number" maxlength="14">
                     <span class="help-text"></span>
                 </div>
                 <div class="form-group">
-                    <label for="maxWidth">Lagura Máxima</label>
-                    <input type="text" name="maxWidth" id="maxWidth" inputmode="number">
-                    <span class="help-text"></span>
-                </div>
-                <div class="form-group">
-                    <label for="maxHeight">Altura Máxima</label>
-                    <input type="text" name="maxHeight" id="maxHeight" inputmode="number">
-                    <span class="help-text"></span>
-                </div>
-                <div class="form-group">
-                    <label for="maxLength">Comprimento Máximo</label>
-                    <input type="text" name="maxLength" id="maxLength" inputmode="number">
+                    <label for="cnh">Letra CNH</label>
+                    <select name="cnh" id="cnh">
+                        <option value="" selected disabled>Selecione</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                        <option value="E">E</option>
+                        <option value="A/B">A/B</option>
+                        <option value="A/C">A/C</option>
+                        <option value="A/D">A/D</option>
+                        <option value="A/E">A/E</option>                        
+                    </select>
                     <span class="help-text"></span>
                 </div>
             </div>
@@ -72,7 +73,7 @@
             </div>
         </form>
     </main>
-    <script type="module" src="/assets/js/vehicle.js"></script>
+    <script type="module" src="/assets/js/driver.js"></script>
 </body>
 
 </html>

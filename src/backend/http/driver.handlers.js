@@ -1,23 +1,24 @@
 import express from 'express';
-import { VehicleController } from '../controller/vehicle.controller.js';
-import { VehicleRepository } from '../database/vehicle.repository.js';
+import { DriverRepository } from '../database/driver.repository.js';
+import { DriverController } from '../controller/driver.controller.js';
+
 
 function getController() {
-    const repository = new VehicleRepository();
-    return new VehicleController(repository);
+    const repository = new DriverRepository();
+    return new DriverController(repository);
 }
 
 /** 
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-export async function handleVehiclePost(req, res) {
+export async function handleDriverPost(req, res) {
     try {
         const body = req.body;
         const id = await getController().create(body);
         if (typeof id == 'number')
             return res.status(201)
-                .header('location', `/veiculos/${id}`)
+                .header('location', `/motoristas/${id}`)
                 .json({ message: 'created' });
         return res.status(400)
             .json(id);
@@ -35,7 +36,7 @@ export async function handleVehiclePost(req, res) {
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-export async function handleVehicleIndex(req, res) {
+export async function handleDriverIndex(req, res) {
     try {
         const data = await getController().get();
         return res.status(200).json(data);
@@ -52,7 +53,7 @@ export async function handleVehicleIndex(req, res) {
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-export async function handleVehicleUpdate(req, res) {
+export async function handleDriverUpdate(req, res) {
     try {
         const id = req.params['id'];
         const error = await getController().update(id, req.body);
@@ -71,7 +72,7 @@ export async function handleVehicleUpdate(req, res) {
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-export async function handleVehicleGet(req, res) {
+export async function handleDriverGet(req, res) {
     try {
         const id = req.params['id'];
         const data = await getController().getById(id);
@@ -91,8 +92,7 @@ export async function handleVehicleGet(req, res) {
  * @param {express.Request} req 
  * @param {express.Response} res 
  */
-export async function handleVehicleDelete(req, res) {
-    console.log('aqui')
+export async function handleDriverDelete(req, res) {
     try {
         const id = req.params['id'];
         await getController().delete(id);

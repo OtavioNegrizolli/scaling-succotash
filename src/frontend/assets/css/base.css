@@ -47,6 +47,15 @@ input {
     box-shadow: inset 0 0 5px #0004;
 }
 
+select {
+    line-height: 1.1em;
+    border-radius: .145em;
+    outline: none;
+    border: 1px solid #aaa;
+    padding: .25em .5em;
+    box-shadow: inset 0 0 5px #0004;
+}
+
 button {
     appearance: none;
     border: 2px solid transparent;
