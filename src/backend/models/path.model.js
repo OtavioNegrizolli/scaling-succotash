@@ -27,8 +27,16 @@ export default class Path {
         this.#name = name;
         this.#origin = origin;
         this.#destination = destination;
-        this.#distance = distance;
-        this.#avaregeTime = avaregeTime;
+        if (typeof distance == 'number')
+            this.#distance = distance;
+        else {
+            this.#distance = Number(distance?.replace('.', '').replace(',', '.'));
+        }
+        if (typeof avaregeTime == 'number')
+            this.#avaregeTime = avaregeTime;
+        else {
+            this.#avaregeTime = Number(avaregeTime?.replace('.', '').replace(',', '.'));
+        }
     }
 
     /** @returns {number} */
@@ -69,7 +77,11 @@ export default class Path {
     }
     /** @param {number} newDistance */
     set distance(newDistance) {
-        this.#distance = newDistance;
+        if (typeof newDistance == 'number')
+            this.#distance = newDistance;
+        else {
+            this.#distance = Number(newDistance?.replace('.', '').replace(',', '.'));
+        }
     }
 
     /** @returns {number} */
@@ -78,7 +90,11 @@ export default class Path {
     }
     /** @param {number} newAvaregeTime */
     set avaregeTime(newAvaregeTime) {
-        this.#avaregeTime = newAvaregeTime;
+        if (typeof newAvaregeTime == 'number')
+            this.#avaregeTime = newAvaregeTime;
+        else {
+            this.#avaregeTime = Number(newAvaregeTime?.replace('.', '').replace(',', '.'));
+        }
     }
 
     /** @return {{[prop:string]:string}|null} */
