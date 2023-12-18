@@ -14,6 +14,14 @@ import {
     handleDriverUpdate
 } from './http/driver.handlers.js';
 
+import {
+    handlePathDelete,
+    handlePathGet,
+    handlePathIndex,
+    handlePathPost,
+    handlePathUpdate
+} from './http/path.handlers.js';
+
 const backendRoutes = Router();
 
 /** 
@@ -50,5 +58,16 @@ backendRoutes.route('/motoristas/:id')
     .put(handleDriverUpdate)
     .patch(handleDriverUpdate)
     .delete(handleDriverDelete);
+
+// paths
+backendRoutes.route('/trajetos')
+    .get(handlePathIndex)
+    .post(handlePathPost);
+
+backendRoutes.route('/trajetos/:id')
+    .get(handlePathGet)
+    .put(handlePathUpdate)
+    .patch(handlePathUpdate)
+    .delete(handlePathDelete);
 
 export default backendRoutes;

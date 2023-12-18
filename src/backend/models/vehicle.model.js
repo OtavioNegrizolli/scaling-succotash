@@ -28,10 +28,27 @@ export default class Vehicle {
     }) {
         this.#id = id;
         this.#licensePlate = licensePlate;
-        this.#cargoMaxWeight = cargoMaxWeight;
-        this.#cargoMaxWidth = cargoMaxWidth;
-        this.#cargoMaxHeight = cargoMaxHeight;
-        this.#cargoMaxLength = cargoMaxLength;
+        if (typeof cargoMaxWeight == 'number')
+            this.#cargoMaxWeight = cargoMaxWeight;
+        else {
+            this.#cargoMaxWeight = Number(cargoMaxWeight?.replace('.', '').replace(',', '.'));
+        }
+
+        if (typeof cargoMaxWidth == 'number')
+            this.#cargoMaxWidth = cargoMaxWidth;
+        else {
+            this.#cargoMaxWidth = Number(cargoMaxWidth?.replace('.', '').replace(',', '.'));
+        }
+        if (typeof cargoMaxHeight == 'number')
+            this.#cargoMaxHeight = cargoMaxHeight;
+        else {
+            this.#cargoMaxHeight = Number(cargoMaxHeight?.replace('.', '').replace(',', '.'));
+        }
+        if (typeof cargoMaxLength == 'number')
+            this.#cargoMaxLength = cargoMaxLength;
+        else {
+            this.#cargoMaxLength = Number(cargoMaxLength?.replace('.', '').replace(',', '.'));
+        }
     }
     /** @returns {number} */
     get id() {
@@ -52,7 +69,11 @@ export default class Vehicle {
     }
     /** @param {number} newCargoMaxWeight */
     set cargoMaxWeight(newCargoMaxWeight) {
-        this.#cargoMaxWeight = newCargoMaxWeight;
+        if (typeof newCargoMaxWeight == 'number')
+            this.#cargoMaxWeight = newCargoMaxWeight;
+        else {
+            this.#cargoMaxWeight = Number(newCargoMaxWeight?.replace('.', '').replace(',', '.'));
+        }
     }
 
     /** @returns {number} */
@@ -61,7 +82,11 @@ export default class Vehicle {
     }
     /** @param {number} newCargoMaxWidth */
     set cargoMaxWidth(newCargoMaxWidth) {
-        this.#cargoMaxWidth = newCargoMaxWidth;
+        if (typeof newCargoMaxWidth == 'number')
+            this.#cargoMaxWidth = newCargoMaxWidth;
+        else {
+            this.#cargoMaxWidth = Number(newCargoMaxWidth?.replace('.', '').replace(',', '.'));
+        }
     }
 
     /** @returns {number} */
@@ -70,7 +95,11 @@ export default class Vehicle {
     }
     /** @param {number} newCargoMaxHeight */
     set cargoMaxHeight(newCargoMaxHeight) {
-        this.#cargoMaxHeight = newCargoMaxHeight;
+        if (typeof newCargoMaxHeight == 'number')
+            this.#cargoMaxHeight = newCargoMaxHeight;
+        else {
+            this.#cargoMaxHeight = Number(newCargoMaxHeight?.replace('.', '').replace(',', '.'));
+        }
     }
 
     /** @returns {number} */
@@ -79,7 +108,11 @@ export default class Vehicle {
     }
     /** @param {number} newCargoMaxLength */
     set cargoMaxLength(newCargoMaxLength) {
-        return this.#cargoMaxLength = newCargoMaxLength;
+        if (typeof newCargoMaxLength == 'number')
+            this.#cargoMaxLength = newCargoMaxLength;
+        else {
+            this.#cargoMaxLength = Number(newCargoMaxLength?.replace('.', '').replace(',', '.'));
+        }
     }
 
     /** @return {{[prop:string]:string}|null} */

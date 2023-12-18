@@ -7,7 +7,7 @@ function onDelete(id) {
             title: 'Deseja Excluir',
             type: 'warning',
             hasCancelButton: true
-        }).then( async v => {
+        }).then(async v => {
             const res = await fetch(`/api/motoristas/${id}`, {
                 method: 'DELETE'
             });
@@ -18,7 +18,7 @@ function onDelete(id) {
             else {
                 showModal({ title: res.statusText, message: 'Bad' });
             }
-        }).catch( e = {});
+        }).catch(e = {});
     }
 }
 
@@ -29,6 +29,7 @@ function loadList() {
     fetch('/api/motoristas').then(response => {
         if (response.status == 200) {
             response.json().then(drivers => {
+                const formater = Intl.NumberFormat('pt-br');
                 for (let i = 0; i < drivers.length; i++) {
                     const id = document.createElement('td');
                     id.innerText = drivers[i].id;
@@ -38,7 +39,7 @@ function loadList() {
 
                     const cpf = document.createElement('td');
                     cpf.innerText = drivers[i].cpf?.replace(/(\d{3})(\d{3})(\d{3})(.{2})/, '$1.$2.$3-$4');
-                    
+
                     const cnh = document.createElement('td');
                     cnh.innerText = drivers[i].cnh;
 

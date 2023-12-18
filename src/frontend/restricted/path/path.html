@@ -40,7 +40,7 @@
             <div class="row">
                 <div class="form-group" style="max-width: 25%;">
                     <label for="id">Id</label>
-                    <input type="text" name="id" id="id" inputmode="number" readonly>
+                    <input type="text" name="id" id="id" readonly>
                 </div>
                 <div class="form-group">
                     <label for="name">Nome</label>
@@ -55,18 +55,18 @@
                     <span class="help-text"></span>
                 </div>
                 <div class="form-group">
-                    <label for="detination">Cidade Destino</label>
-                    <input type="text" name="detination" id="detination" inputmode="number">
+                    <label for="destination">Cidade Destino</label>
+                    <input type="text" name="destination" id="destination">
                     <span class="help-text"></span>
                 </div>
                 <div class="form-group">
-                    <label for="ditance">Distância(KM)</label>
-                    <input type="text" name="ditance" id="ditance" inputmode="number">
+                    <label for="distance">Distância(KM)</label>
+                    <input type="text" name="distance" id="distance" inputmode="numeric">
                     <span class="help-text"></span>
                 </div>
                 <div class="form-group">
-                    <label for="time">Tempo Médio(Horas)</label>
-                    <input type="text" name="time" id="time" inputmode="number">
+                    <label for="avaregeTime">Tempo Médio(Horas)</label>
+                    <input type="text" name="avaregeTime" id="avaregeTime" inputmode="numeric">
                     <span class="help-text"></span>
                 </div>
             </div>
@@ -76,7 +76,8 @@
             </div>
         </form>
     </main>
-    <script type="module" src="/assets/js/driver.js"></script>
+    <script src="/assets/js/mask.js"></script>
+    <script type="module" src="/assets/js/path.js"></script>
 </body>
 
 </html>

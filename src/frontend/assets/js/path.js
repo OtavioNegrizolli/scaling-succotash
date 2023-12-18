@@ -1,4 +1,5 @@
 import { applyErrorMsg, showModal } from './helpers.js';
+import api from './api.js';
 /**
  * @param {Event} e 
  */
@@ -7,19 +8,14 @@ async function onSubmit(e) {
     try {
         document.querySelectorAll('.help-text').forEach(ht => ht.innerHTML = '');
         const data = {};
+
         document.querySelectorAll('.form-group input').forEach(input => {
             data[input.id] = input.value;
         });
         // update
         if (Number(data.id) > 0) {
             console.log(data);
-            const responseData = await fetch(`/api/veiculos/${data['id']}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            const responseData = await api.put(`/api/trajetos/${data['id']}`, data);
             if (responseData.status === 200)
                 showModal({
                     message: 'Atualizado com sucesso',
@@ -29,18 +25,11 @@ async function onSubmit(e) {
                 });
         } // create
         else {
-            const responseData = await fetch('/api/veiculos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            const responseData = await api.post('/api/trajetos', data);
             switch (responseData.status) {
                 case 201: await onCreated(responseData); break;
-
                 case 400: await onBadRequest(responseData); break;
-                case 401: onUnathourized(responseData); break;
+                case 401: api.redirect('/login'); break;
                 case 403: break;
                 case 500: break;
                 default: console.log(responseData);
@@ -54,20 +43,17 @@ async function onSubmit(e) {
 
 async function onBadRequest(response) {
     const { errors } = await response.json();
-    console.log(errors);
-    if (typeof errors == 'string') {
-        showModal({ message: errors.error, title: 'Erro', type: 'warning' });
+    if (typeof errors == 'string' || errors.errors) {
+        showModal({
+            title: 'Error',
+            message: errors.errors || errors,
+            type: 'error'
+        });
     }
     else
         Object.keys(errors).forEach(k => applyErrorMsg(k, errors[k]));
 }
 
-function onUnathourized() {
-    // forçar page reload
-    const a = document.createElement('a');
-    a.href = '/login';
-    a.click();
-}
 
 /**
  * @param {Response} response 
@@ -79,9 +65,7 @@ async function onCreated(response) {
             title: 'Criado com sucesso',
             message: `Criado o veiculo com id ${location.split('/')[3]}`,
         }).then(e => {
-            const a = document.createElement('a');
-            a.href = location;
-            a.click();
+            api.redirect(location);
         });
     }
 }
@@ -91,19 +75,24 @@ async function checkForEditing() {
     if (path.length == 3) {
         const id = Number(path.pop());
         if (id > 0) {
-            const data = await fetch(`/api/veiculos/${id}`);
+            const data = await api.get(`/api/trajetos/${id}`);
             if (data.status == 200) {
                 const body = await data.json();
                 Object.keys(body).forEach(k => {
                     console.log(k, body[k])
-                    /**
-                     * @type {HTMLInputElement}
-                     */
                     const inpt = document.querySelector(`#${k}`);
                     if (inpt) {
                         inpt.value = body[k];
                         inpt.dispatchEvent(new Event('input'));
                     }
+                });
+            }
+            else if (data.status === 404) {
+                showModal({
+                    title: '404',
+                    message: 'Não encontrei o trajeto passado, redirecinando para o cadastro'
+                }).then(() => {
+                    api.redirect('/trajetos/0');
                 });
             }
         }
@@ -112,27 +101,34 @@ async function checkForEditing() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     document.querySelector('form').addEventListener('submit', onSubmit);
-    document.querySelectorAll('[inputmode=number]')
-        .forEach(i => {
-            i.addEventListener('input', (evt) => {
-                /** @type {string} */
-                let v = evt.target.value;
-                if (v.lastIndexOf(',') == -1) {
-                    v += '00';
-                }
-                v = v?.replace(/\D/ig, '');
-                let pos = evt.target.selectionStart;
+    VMasker(document.querySelectorAll('[inputmode=numeric]')).maskMoney({
+        separator: ',',
+        precision: 2,
+        delimiter: '.',
+        unit: '',
+        suffixUnit: ''
+    });
+    document.querySelector('#avaregeTime').addEventListener('keyup', (e) => { console.log('up');} )
+    document.querySelector('#avaregeTime').addEventListener('input', (e) => {
+        console.log('in');
+        const v = e.target.value;
 
-                if (v.length < 2)
-                    pos = 100000;
-                else if (pos % 4 == 3 || pos >= v.length)
-                    pos++;
+        const parts = v.split(',');
+        console.log(parts);
+        if (parts[1] != null) {
 
-                let value = Number(v);
-                value /= 100; // add cents
-                evt.target.value = Intl.NumberFormat('pt-BR').format(value);
-                evt.target.setSelectionRange(pos, pos);
-            });
-        });
+            let asNum = Number(parts[1]);
+            let minutes = asNum;
+            if (asNum > 99) {
+                console.log(asNum);
+                minutes = asNum - Math.floor(asNum / 100) * 100;
+                asNum = Math.floor(asNum / 100);
+                console.log(minutes, asNum);
+            }
+            if (minutes > 59) {
+                e.target.value = `${parts[0]},${asNum}00`
+            }
+        }
+    });
     await checkForEditing();
 });

@@ -2,7 +2,7 @@ import getConnectionPool from './db.js'
 import Path from '../models/path.model.js';
 
 const SQLS = {
-    insert: "INSERT INTO paths (id, name, origin, destination, distance, average_time) VALUES(?, ?, ?, ?, ?)",
+    insert: "INSERT INTO paths (name, origin, destination, distance, average_time) VALUES(?, ?, ?, ?, ?)",
     select: "SELECT id, name, origin, destination, distance, average_time FROM paths ",
     update: "UPDATE paths SET name=?, origin=?, destination=?, distance=?, average_time=? WHERE id=?",
     delete: "DELETE FROM paths WHERE id=?"
@@ -79,7 +79,7 @@ export class PathRepository {
             const queryResult = await this.#db.execute(`${SQLS.select}`);
             if (queryResult != null && queryResult[0] != null && queryResult[0].length > 0) {
                 const paths = [];
-                for (const v of queryResult[0]) {
+                for (const pathData of queryResult[0]) {
                     paths.push(new Path({
                         id: pathData.id,
                         name: pathData.name,

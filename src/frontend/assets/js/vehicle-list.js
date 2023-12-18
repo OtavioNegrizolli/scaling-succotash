@@ -35,13 +35,13 @@ function loadList() {
                     const licensePlate = document.createElement('td');
                     licensePlate.innerText = vehicle[i].licensePlate;
                     const maxWeight = document.createElement('td');
-                    maxWeight.innerText = vehicle[i].maxWeight;
+                    maxWeight.innerText = Intl.NumberFormat('pt-BR').format(vehicle[i].maxWeight);
                     const maxWidth = document.createElement('td');
-                    maxWidth.innerText = vehicle[i].maxWidth;
+                    maxWidth.innerText = Intl.NumberFormat('pt-BR').format(vehicle[i].maxWidth);
                     const maxHeight = document.createElement('td');
-                    maxHeight.innerText = vehicle[i].maxHeight;
+                    maxHeight.innerText = Intl.NumberFormat('pt-BR').format(vehicle[i].maxHeight);
                     const maxLength = document.createElement('td');
-                    maxLength.innerText = vehicle[i].maxLength;
+                    maxLength.innerText = Intl.NumberFormat('pt-BR').format(vehicle[i].maxLength);
 
                     const edit = document.createElement('a');
                     edit.href = `/veiculos/${vehicle[i].id}`;

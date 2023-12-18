@@ -5,22 +5,6 @@ export function applyErrorMsg(sourceField, msg) {
     helpText.innerText = msg;
 }
 
-
-export class http {
-
-    static async post(url, body) {
-        const res = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-        const rb = await res.json();
-        return {
-            ...res,
-            body: rb
-        };
-    }
-}
-
 export function showModal({
     message,
     title = null,

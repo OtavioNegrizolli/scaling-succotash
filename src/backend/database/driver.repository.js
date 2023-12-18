@@ -51,12 +51,12 @@ export class DriverRepository {
         try {
             const queryResult = await this.#db.execute(`${SQLS.select} WHERE id=?`, values);
             if (queryResult != null && queryResult[0] != null && queryResult[0][0]) {
-                const vehicleData = queryResult[0][0];
+                const driverData = queryResult[0][0];
                 return new Driver({
-                    id: vehicleData.id,
-                    name: vehicleData.name,
-                    cnh: vehicleData.cnh,
-                    cpf: vehicleData.cpf
+                    id: driverData.id,
+                    name: driverData.name,
+                    cnh: driverData.cnh,
+                    cpf: driverData.cpf
                 });
             }
             return null;
@@ -70,16 +70,16 @@ export class DriverRepository {
         try {
             const queryResult = await this.#db.execute(`${SQLS.select}`);
             if (queryResult != null && queryResult[0] != null && queryResult[0].length > 0) {
-                const vehicles = [];
+                const drivers = [];
                 for (const v of queryResult[0]) {
-                    vehicles.push(new Driver({
+                    drivers.push(new Driver({
                         id: v.id,
                         name: v.name,
                         cnh: v.cnh,
                         cpf: v.cpf
                     }));
                 }
-                return vehicles;
+                return drivers;
             }
             return [];
         } //

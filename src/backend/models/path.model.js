@@ -30,12 +30,14 @@ export default class Path {
         if (typeof distance == 'number')
             this.#distance = distance;
         else {
-            this.#distance = Number(distance?.replace('.', '').replace(',', '.'));
+            distance = distance?.replace('.', '').replace(',', '.');
+            this.#distance = Number(distance);
         }
         if (typeof avaregeTime == 'number')
             this.#avaregeTime = avaregeTime;
         else {
-            this.#avaregeTime = Number(avaregeTime?.replace('.', '').replace(',', '.'));
+            avaregeTime = avaregeTime?.replace('.', '').replace(',', '.');
+            this.#avaregeTime = Number(avaregeTime);
         }
     }
 
@@ -120,12 +122,15 @@ export default class Path {
             errors['distance'] = 'Obrigatório!';
         else if (this.#distance <= 0)
             errors['distance'] = 'Deve ser superior a 0 (zero)!';
-        
+        else if (isNaN(this.#distance))
+            errors['distance'] = 'Informa um número né cara!';
+
         if (this.#avaregeTime == null)
             errors['avaregeTime'] = 'Obrigatório!';
         else if (this.#avaregeTime <= 0)
             errors['avaregeTime'] = 'Deve ser superior a 0 (zero)!';
-
+        else if (isNaN(this.#avaregeTime))
+            errors['avaregeTime'] = 'Informa um número né cara!';
         return Object.keys(errors).length > 0 ? errors : null;
     }
 
