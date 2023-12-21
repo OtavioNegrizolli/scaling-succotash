@@ -1,56 +1,34 @@
-import { applyErrorMsg, showModal } from './helpers.js';
+import { applyErrorMsg, redirect, showModal, resetErrorMsg, getFormInputData } from './helpers.js';
 /**
  * @param {Event} e 
  */
 async function onSubmit(e) {
     e.preventDefault();
     try {
-        const data = {};
-        document.querySelectorAll('.help-text').forEach(ht => ht.innerHTML = '');
-        document.querySelectorAll('.form-group input').forEach(input => {
-            data[input.id] = input.value;
-        });
-        document.querySelectorAll('.form-group select').forEach(input => {
-            data[input.id] = input.value;
-        });
-        // update
-        console.log(data);
-        if (Number(data.id) > 0) {
-            const responseData = await fetch(`/api/motoristas/${data['id']}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            if (responseData.status === 200)
-                showModal({
-                    message: 'Atualizado com sucesso',
-                    title: 'Feito'
-                }).then(() => {
-                    window.location.reload();
-                });
-        } // create
-        else {
-            const responseData = await fetch('/api/motoristas', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            switch (responseData.status) {
-                case 201: await onCreated(responseData); break;
-                case 400: await onBadRequest(responseData); break;
-                case 401: onUnathourized(responseData); break;
-                case 403: break;
-                case 500: break;
-                default: console.log(responseData);
-            }
+        resetErrorMsg();
+        
+        const data = getFormInputData();
+
+        const responseData = await (
+            Number(data.id) > 0 ?
+                // update
+                api.put(`/api/motoristas/${data['id']}`, data) :
+                // create
+                api.post('/api/motoristas', data)
+        );
+
+        switch (responseData.status) {
+            case 201: await onCreated(responseData); break;
+            case 200: onUpdate(); break;
+            case 400: await onBadRequest(responseData); break;
+            case 401: redirect('/login'); break;
+            case 403: break;
+            case 500: break;
+            default: console.log(responseData);
         }
     }  // errors da aplicação web
     catch (error) {
-        console.error(error);
+        showModal({ title: 'Erro', message: error.message || error.error || error, type: 'error' });
     }
 }
 
@@ -65,9 +43,7 @@ async function onBadRequest(response) {
 
 function onUnathourized() {
     // forçar page reload
-    const a = document.createElement('a');
-    a.href = '/login';
-    a.click();
+    redirect('/login');
 }
 
 /**
@@ -78,12 +54,10 @@ async function onCreated(response) {
     if (location) {
         showModal({
             title: 'Criado com sucesso',
-            message: `Criado o motorista com id ${location.split('/')[3]}`,
-        }).then(e => {
-            const a = document.createElement('a');
-            a.href = location;
-            a.click();
-        });
+            message: `Criado o motorista com id ${location.split('/')[2]}`,
+        }).then(() =>
+            redirect(location)
+        );
     }
 }
 
@@ -101,6 +75,14 @@ async function checkForEditing() {
                     if (inpt)
                         inpt.value = body[k];
                 });
+            } // id not found
+            else if (data.status === 404) {
+                showModal({
+                    title: '404',
+                    message: 'Motorista não encontrado, redirecinando para o cadastro'
+                }).then(() =>
+                    redirect('/motoristas/0')
+                );
             }
         }
     }
@@ -108,7 +90,7 @@ async function checkForEditing() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     document.querySelector('form').addEventListener('submit', onSubmit);
-    
+
     document.querySelector('#cpf').addEventListener('input', (evt) => {
         /**@type {string} */
         let v = evt.target.value;
@@ -123,31 +105,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             else {
                 // limpa a mascara
                 let clear = v.replace(/\D/ig, '');
-                if (clear.length <= 11) {
 
-                    // has at least 3 digits
-                    if (clear.length > 3) {
-                        clear = clear.replace(/(\d{3})(.+)/, '$1.$2');
-                    }
-                    // has at least 7 digits + mask characeteres
-                    if (clear.length > 7) {
-                        clear = clear.replace(/(.{7})(.+)/, '$1.$2');
-                    }
-                    // has at least 10 digits + mask characeteres
-                    if (clear.length > 11) {
-                        clear = clear.replace(/(.{11})(.{1,2})/, '$1-$2');
-                    }
 
-                    if ([4, 8, 12].find(p => p == pos))
-                        pos++;
+                // has at least 3 digits
+                if (clear.length > 3) {
+                    clear = clear.replace(/(\d{3})(.+)/, '$1.$2');
                 }
-                else {
-                    clear = clear.replace(/(\d{2})(\d{3})(\d{3})(\d{1,4})(.*)/, '$1.$2.$3/$4$5');
-                    if (clear.length > 15)
-                        clear = clear.replace(/(.{15})(.*)/, '$1-$2');
-                    if ([3, 7, 11, 16].find(p => p == pos))
-                        pos++;
+                // has at least 7 digits + mask characeteres
+                if (clear.length > 7) {
+                    clear = clear.replace(/(.{7})(.+)/, '$1.$2');
                 }
+                // has at least 10 digits + mask characeteres
+                if (clear.length > 11) {
+                    clear = clear.replace(/(.{11})(.{1,2}).*/, '$1-$2');
+                }
+
+                if ([4, 8, 12].find(p => p == pos))
+                    pos++;
+
                 evt.target.value = clear;
                 evt.target.setSelectionRange(pos, pos);
             }

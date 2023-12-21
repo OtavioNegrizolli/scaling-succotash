@@ -1,54 +1,34 @@
-import { applyErrorMsg, showModal } from './helpers.js';
+import { applyErrorMsg, showModal, redirect, resetErrorMsg, getFormInputData } from './helpers.js';
+import api from './api.js';
 /**
  * @param {Event} e 
  */
 async function onSubmit(e) {
     e.preventDefault();
     try {
-        document.querySelectorAll('.help-text').forEach(ht => ht.innerHTML = '');
-        const data = {};
-        document.querySelectorAll('.form-group input').forEach(input => {
-            data[input.id] = input.value;
-        });
-        // update
-        if (Number(data.id) > 0) {
-            console.log(data);
-            const responseData = await fetch(`/api/veiculos/${data['id']}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            if (responseData.status === 200)
-                showModal({
-                    message: 'Atualizado com sucesso',
-                    title: 'Feito'
-                }).then(e => {
-                    window.location.reload();
-                });
-        } // create
-        else {
-            const responseData = await fetch('/api/veiculos', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            switch (responseData.status) {
-                case 201: await onCreated(responseData); break;
+        resetErrorMsg();
+        const data = getFormInputData();
 
-                case 400: await onBadRequest(responseData); break;
-                case 401: onUnathourized(responseData); break;
-                case 403: break;
-                case 500: break;
-                default: console.log(responseData);
-            }
+        const responseData = await (
+            Number(data.id) > 0 ?
+                // update
+                api.put(`/api/veiculos/${data['id']}`, data) :
+                // create
+                api.post('/api/veiculos', data)
+        );
+
+        switch (responseData.status) {
+            case 201: await onCreated(responseData); break;
+            case 200: onUpdate(); break;
+            case 400: await onBadRequest(responseData); break;
+            case 401: redirect('/login'); break;
+            case 403: break;
+            case 500: break;
+            default: console.log(responseData);
         }
     }  // errors da aplicação web
     catch (error) {
-        console.error(error);
+        showModal({ title: 'Erro', message: error.message || error.error || error, type: 'error' });
     }
 }
 
@@ -62,27 +42,20 @@ async function onBadRequest(response) {
         Object.keys(errors).forEach(k => applyErrorMsg(k, errors[k]));
 }
 
-function onUnathourized() {
-    // forçar page reload
-    const a = document.createElement('a');
-    a.href = '/login';
-    a.click();
-}
 
 /**
  * @param {Response} response 
  */
 async function onCreated(response) {
     const location = response.headers.get('location');
+    console.log(location.split('/'));
     if (location) {
         showModal({
-            title: 'Criado com sucesso',
-            message: `Criado o veiculo com id ${location.split('/')[3]}`,
-        }).then(e => {
-            const a = document.createElement('a');
-            a.href = location;
-            a.click();
-        });
+            title: 'Sucesso',
+            message: `Criado o veiculo com id ${location.split('/')[2]}`,
+        }).then(
+            () => redirect(location)
+        );
     }
 }
 
@@ -105,6 +78,14 @@ async function checkForEditing() {
                         inpt.dispatchEvent(new Event('input'));
                     }
                 });
+            }  // id not found
+            else if (data.status === 404) {
+                showModal({
+                    title: '404',
+                    message: 'Veículo não encontrado, redirecinando para o cadastro'
+                }).then(() =>
+                    redirect('/veiculos/0')
+                );
             }
         }
     }
@@ -112,27 +93,12 @@ async function checkForEditing() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     document.querySelector('form').addEventListener('submit', onSubmit);
-    document.querySelectorAll('[inputmode=number]')
-        .forEach(i => {
-            i.addEventListener('input', (evt) => {
-                /** @type {string} */
-                let v = evt.target.value;
-                if (v.lastIndexOf(',') == -1) {
-                    v += '00';
-                }
-                v = v?.replace(/\D/ig, '');
-                let pos = evt.target.selectionStart;
-
-                if (v.length < 2)
-                    pos = 100000;
-                else if (pos % 4 == 3 || pos >= v.length)
-                    pos++;
-
-                let value = Number(v);
-                value /= 100; // add cents
-                evt.target.value = Intl.NumberFormat('pt-BR').format(value);
-                evt.target.setSelectionRange(pos, pos);
-            });
-        });
+    VMasker(document.querySelectorAll('[inputmode=numeric]')).maskMoney({
+        separator: ',',
+        precision: 3,
+        delimiter: '.',
+        unit: '',
+        suffixUnit: ''
+    });
     await checkForEditing();
 });

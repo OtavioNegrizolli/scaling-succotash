@@ -43,7 +43,7 @@ function loadList() {
                     avaregeTime.innerText = Intl.NumberFormat('pt-BR').format(vehicle[i].avaregeTime);
 
                     const edit = document.createElement('a');
-                    edit.href = `/veiculos/${vehicle[i].id}`;
+                    edit.href = `/trajetos/${vehicle[i].id}`;
                     edit.innerHTML = '<i class="fas fa-pencil"></i>';
 
                     const del = document.createElement('a');

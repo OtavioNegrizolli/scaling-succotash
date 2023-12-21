@@ -5,6 +5,18 @@ export function applyErrorMsg(sourceField, msg) {
     helpText.innerText = msg;
 }
 
+export function resetErrorMsg() {
+    document.querySelectorAll('.help-text').forEach(ht => ht.innerHTML = '');
+}
+
+export function getFormInputData() {
+    const data = {};
+    document.querySelectorAll('.form-group input').forEach(input => {
+        data[input.id] = input.value;
+    });
+    return data;
+}
+
 export function showModal({
     message,
     title = null,
@@ -54,6 +66,14 @@ export function showModal({
             res('it was succcessifully resolved');
         });
     });
+}
+
+
+export function redirect(to) {
+    // forçar page reload
+    const a = document.createElement('a');
+    a.href = to;
+    a.click();
 }
 
 function createHeading(title, type) {
